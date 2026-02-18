@@ -11,7 +11,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Any
 
-from homeassistant.components.recorder.models import StatisticData, StatisticMetaData
+from homeassistant.components.recorder.models import StatisticData, StatisticMeanType, StatisticMetaData
 from homeassistant.components.recorder.statistics import (
     async_add_external_statistics,
     get_last_statistics,
@@ -189,6 +189,7 @@ async def import_statistics(
     metadata = StatisticMetaData(
         has_mean=False,
         has_sum=True,
+        mean_type=StatisticMeanType.NONE,
         name=f"{name} (costs)" if is_cost else name,
         source=source,
         statistic_id=statistic_id,
