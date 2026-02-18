@@ -1,8 +1,8 @@
 # Home Assistant Linky Add-on
 
-[![Build Status](https://flat.badgen.net/github/checks/bokub/ha-linky?label=build)](https://github.com/bokub/ha-linky/actions/workflows/run.yml?query=branch%3Amaster)
-[![Coverage](https://img.shields.io/codecov/c/github/bokub/ha-linky?style=flat-square)](https://app.codecov.io/github/bokub/ha-linky)
-[![Version](https://gradgen.bokub.workers.dev/github/release/bokub/ha-linky?gradient=b65cff,11cbfa&style=flat&label=version)](https://github.com/bokub/ha-linky/releases)
+[![Build Status](https://flat.badgen.net/github/checks/alexzouz/ha-linky?label=build)](https://github.com/alexzouz/ha-linky/actions/workflows/run.yml?query=branch%3Amaster)
+[![Coverage](https://img.shields.io/codecov/c/github/alexzouz/ha-linky?style=flat-square)](https://app.codecov.io/github/alexzouz/ha-linky)
+[![Version](https://gradgen.bokub.workers.dev/github/release/alexzouz/ha-linky?gradient=b65cff,11cbfa&style=flat&label=version)](https://github.com/alexzouz/ha-linky/releases)
 [![Code style](https://flat.badgen.net/badge/code%20style/prettier/ff69b4)](https://github.com/bokub/prettier-config)
 
 > A **Home Assistant** add-on to sync Energy dashboards with your **Linky** smart meter
@@ -16,7 +16,7 @@
 Il utilise mon module npm [linky](https://github.com/bokub/linky) et mon service [Conso API](https://conso.boris.sh/) pour communiquer avec Enedis et récupérer votre consommation.
 
 <p align="center">
-  <img src="https://github.com/bokub/ha-linky/assets/17952318/ed53a1d5-e0c6-4c50-88ac-576f6542e63b">
+  <img src="https://github.com/alexzouz/ha-linky/assets/17952318/ed53a1d5-e0c6-4c50-88ac-576f6542e63b">
 </p>
 
 ## Prérequis
@@ -25,16 +25,16 @@ Pour utiliser cet add-on, il vous faut :
 
 - Un compteur Linky
 - Un espace client Enedis
-- La collecte de la consommation horaire activée sur votre espace client Enedis ([tutoriel](https://github.com/bokub/ha-linky/wiki/Activer-la-collecte-de-la-consommation-horaire))
+- La collecte de la consommation horaire activée sur votre espace client Enedis ([tutoriel](https://github.com/alexzouz/ha-linky/wiki/Activer-la-collecte-de-la-consommation-horaire))
 - Un token d'accès, à générer sur [Conso API](https://conso.boris.sh/)
 
 ## Installation
 
-- Cliquez [ici](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fbokub%2Fha-linky) pour ajouter le repository à Home Assistant. Si le lien ne fonctionne pas :
+- Cliquez [ici](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Falexzouz%2Fha-linky) pour ajouter le repository à Home Assistant. Si le lien ne fonctionne pas :
   - Depuis Home Assistant, ouvrez le menu _Paramètres_ / _Settings_, puis _Modules complémentaires_ / _Add-ons_
   - Cliquez sur le bouton _Boutique_ / _Store_ en bas à droite
   - Cliquer sur les trois points en haut à droite, puis _Dépôts_ / _Repositories_
-  - Ajoutez `https://github.com/bokub/ha-linky`
+  - Ajoutez `https://github.com/alexzouz/ha-linky`
 - Cliquez sur _Ajouter_ / _Add_ puis fermez la boite de dialogue
 - Cherchez _Linky_ dans la liste des add-ons et cliquez dessus (vous pouvez utiliser la barre de recherche)
 - Installez l'add-on en cliquant sur le bouton dédié
@@ -146,8 +146,8 @@ Si vous souhaitez un historique **plus long** ainsi qu'une **précision horaire*
 
 La marche à suivre est la suivante :
 
-- Téléchargez un export de vos données **horaires** depuis votre espace client Enedis ([tutoriel](https://github.com/bokub/ha-linky/wiki/T%C3%A9l%C3%A9charger-son-historique-au-format-CSV))
-- Déposez ce fichier dans le dossier `/addon_configs/cf6b56a3_linky` ([tutoriel](https://github.com/bokub/ha-linky/wiki/Importer-un-fichier-CSV-dans-Home-Assistant))
+- Téléchargez un export de vos données **horaires** depuis votre espace client Enedis ([tutoriel](https://github.com/alexzouz/ha-linky/wiki/T%C3%A9l%C3%A9charger-son-historique-au-format-CSV))
+- Déposez ce fichier dans le dossier `/addon_configs/cf6b56a3_linky` ([tutoriel](https://github.com/alexzouz/ha-linky/wiki/Importer-un-fichier-CSV-dans-Home-Assistant))
 - Si vous avez déjà importé des données dans Home Assistant, faites une remise à zéro en suivant le paragraphe précédent
 - Repassez l'action du compteur à `sync` et redémarrez l'add-on
 - Si un fichier CSV correspondant à votre PRM est trouvé, HA Linky l'utilisera pour initialiser les données au lieu d'appeler l'API.
@@ -286,7 +286,7 @@ Si votre installation de Home Assistant ne vous permet pas d'accéder au systèm
 Construisez une image Docker `ha-linky` adaptée à votre système avec la commande suivante :
 
 ```sh
-docker build https://github.com/bokub/ha-linky.git -f standalone.Dockerfile -t ha-linky
+docker build https://github.com/alexzouz/ha-linky.git -f standalone.Dockerfile -t ha-linky
 ```
 
 Créez ensuite un fichier nommé `options.json`, au format suivant, puis suivez les instructions du paragraphe "Configuration" ci-dessus pour le remplir.

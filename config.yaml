@@ -3,7 +3,7 @@ description: Sync Energy dashboards with your Linky smart meter
 version: 1.7.0
 slug: linky
 init: false
-url: https://github.com/bokub/ha-linky
+url: https://github.com/alexzouz/ha-linky
 image: ghcr.io/bokub/ha-linky-{arch}
 arch:
   - aarch64
