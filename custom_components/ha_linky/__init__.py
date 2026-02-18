@@ -83,10 +83,14 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
 
     async def handle_reset_statistics(call: ServiceCall) -> None:
         """Handle the reset_statistics service call."""
-        prm = call.data["prm"]
-        is_production = call.data.get("production", False)
-        await purge_statistics(hass, prm, is_production)
-        _LOGGER.info("Statistics reset for PRM %s", prm)
+        try:
+            prm = call.data["prm"]
+            is_production = call.data.get("production", False)
+            await purge_statistics(hass, prm, is_production)
+            _LOGGER.info("Statistics reset for PRM %s", prm)
+        except Exception:
+            _LOGGER.exception("Failed to reset statistics")
+            raise
 
     hass.services.async_register(
         DOMAIN, SERVICE_IMPORT_CSV, handle_import_csv,

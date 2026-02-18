@@ -268,19 +268,7 @@ async def purge_statistics(
     _LOGGER.warning("Removing all statistics for PRM %s: %s", prm, statistic_ids)
 
     instance = get_instance(hass)
-
-    # Try async method on Recorder instance (HA 2025+)
-    if hasattr(instance, "async_clear_statistics"):
-        await instance.async_clear_statistics(statistic_ids)
-        return
-
-    # Fallback: try clear_statistics from statistics module
-    try:
-        from homeassistant.components.recorder.statistics import clear_statistics
-        await hass.async_add_executor_job(clear_statistics, instance, statistic_ids)
-    except TypeError:
-        # Last resort: try with hass instead of instance
-        await hass.async_add_executor_job(clear_statistics, hass, statistic_ids)
+    await instance.async_clear_statistics(statistic_ids)
 
 
 # --------------------------------------------------------------------------
