@@ -259,14 +259,16 @@ async def purge_statistics(
     is_production: bool,
 ) -> None:
     """Remove all statistics for a PRM (energy + cost)."""
+    from homeassistant.components.recorder import get_instance
     from homeassistant.components.recorder.statistics import clear_statistics
 
     stat_id = get_statistic_id(prm, is_production, is_cost=False)
     stat_id_cost = get_statistic_id(prm, is_production, is_cost=True)
 
     _LOGGER.warning("Removing all statistics for PRM %s", prm)
+    instance = get_instance(hass)
     await hass.async_add_executor_job(
-        clear_statistics, hass, [stat_id, stat_id_cost]
+        clear_statistics, instance, [stat_id, stat_id_cost]
     )
 
 
