@@ -52,5 +52,43 @@
         "name": "Statut de synchronisation"
       }
     }
+  },
+  "services": {
+    "import_csv": {
+      "name": "Importer un CSV",
+      "description": "Importer des donnees historiques d'energie depuis un fichier CSV exporte de votre espace Enedis.",
+      "fields": {
+        "file_path": {
+          "name": "Chemin du fichier",
+          "description": "Chemin vers le fichier CSV (separateur point-virgule, avec colonnes 'debut' et 'kW')"
+        },
+        "prm": {
+          "name": "PRM",
+          "description": "Numero PRM du compteur (14 chiffres)"
+        },
+        "production": {
+          "name": "Production",
+          "description": "Mettre a true pour des donnees de production"
+        },
+        "name": {
+          "name": "Nom",
+          "description": "Nom d'affichage pour les statistiques"
+        }
+      }
+    },
+    "reset_statistics": {
+      "name": "Reinitialiser les statistiques",
+      "description": "Supprimer toutes les statistiques (energie et couts) pour un PRM donne.",
+      "fields": {
+        "prm": {
+          "name": "PRM",
+          "description": "Numero PRM du compteur (14 chiffres)"
+        },
+        "production": {
+          "name": "Production",
+          "description": "Mettre a true pour reinitialiser les statistiques de production"
+        }
+      }
+    }
   }
 }

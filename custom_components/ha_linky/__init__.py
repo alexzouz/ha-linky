@@ -2,19 +2,113 @@
 
 from __future__ import annotations
 
+import csv
 import logging
+from pathlib import Path
+
+import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import ConsoApiClient
 from .const import CONF_COSTS, CONF_NAME, CONF_PRM, CONF_PRODUCTION, CONF_TOKEN, DOMAIN
 from .coordinator import LinkyCoordinator
+from .statistics_helper import (
+    format_as_statistics,
+    format_history_file,
+    group_by_hour,
+    import_statistics,
+    purge_statistics,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = ["sensor"]
+
+SERVICE_IMPORT_CSV = "import_csv"
+SERVICE_RESET = "reset_statistics"
+
+SERVICE_IMPORT_CSV_SCHEMA = vol.Schema(
+    {
+        vol.Required("file_path"): str,
+        vol.Required("prm"): str,
+        vol.Optional("production", default=False): bool,
+        vol.Optional("name", default="Linky"): str,
+    }
+)
+
+SERVICE_RESET_SCHEMA = vol.Schema(
+    {
+        vol.Required("prm"): str,
+        vol.Optional("production", default=False): bool,
+    }
+)
+
+
+async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+    """Set up the Linky integration (register services)."""
+    hass.data.setdefault(DOMAIN, {})
+
+    async def handle_import_csv(call: ServiceCall) -> None:
+        """Handle the import_csv service call."""
+        file_path = call.data["file_path"]
+        prm = call.data["prm"]
+        is_production = call.data.get("production", False)
+        name = call.data.get("name", "Linky")
+
+        path = Path(file_path)
+        if not path.is_file():
+            _LOGGER.error("CSV file not found: %s", file_path)
+            return
+
+        _LOGGER.info("Importing CSV file: %s for PRM %s", file_path, prm)
+
+        records = await hass.async_add_executor_job(_read_csv, path)
+
+        if not records:
+            _LOGGER.warning("No valid records found in CSV file: %s", file_path)
+            return
+
+        data_points = format_history_file(records)
+        _LOGGER.info(
+            "Found %d data points in CSV from %s to %s",
+            len(data_points), data_points[0].date[:10], data_points[-1].date[:10],
+        )
+
+        stats = format_as_statistics(group_by_hour(data_points))
+        await import_statistics(hass, prm, name, is_production, False, stats)
+        _LOGGER.info("CSV import completed for PRM %s", prm)
+
+    async def handle_reset_statistics(call: ServiceCall) -> None:
+        """Handle the reset_statistics service call."""
+        prm = call.data["prm"]
+        is_production = call.data.get("production", False)
+        await purge_statistics(hass, prm, is_production)
+        _LOGGER.info("Statistics reset for PRM %s", prm)
+
+    hass.services.async_register(
+        DOMAIN, SERVICE_IMPORT_CSV, handle_import_csv,
+        schema=SERVICE_IMPORT_CSV_SCHEMA,
+    )
+    hass.services.async_register(
+        DOMAIN, SERVICE_RESET, handle_reset_statistics,
+        schema=SERVICE_RESET_SCHEMA,
+    )
+
+    return True
+
+
+def _read_csv(path: Path) -> list[dict[str, str]]:
+    """Read a Linky CSV export file (semicolon-delimited, BOM-aware)."""
+    records: list[dict[str, str]] = []
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f, delimiter=";")
+        for row in reader:
+            if row.get("debut") and row.get("kW"):
+                records.append({"debut": row["debut"], "kW": row["kW"]})
+    return records
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

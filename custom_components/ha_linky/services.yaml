@@ -1,0 +1,36 @@
+import_csv:
+  fields:
+    file_path:
+      required: true
+      example: "/config/historique_conso_12345678901234.csv"
+      selector:
+        text:
+    prm:
+      required: true
+      example: "12345678901234"
+      selector:
+        text:
+    production:
+      required: false
+      default: false
+      selector:
+        boolean:
+    name:
+      required: false
+      default: "Linky"
+      example: "Linky consumption"
+      selector:
+        text:
+
+reset_statistics:
+  fields:
+    prm:
+      required: true
+      example: "12345678901234"
+      selector:
+        text:
+    production:
+      required: false
+      default: false
+      selector:
+        boolean:

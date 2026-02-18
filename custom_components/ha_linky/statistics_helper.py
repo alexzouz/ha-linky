@@ -111,6 +111,21 @@ def format_load_curve(readings: list[dict[str, Any]]) -> list[DataPoint]:
     return result
 
 
+def format_history_file(records: list[dict[str, str]]) -> list[DataPoint]:
+    """Convert CSV history records to DataPoints.
+
+    CSV format: {'debut': ISO date, 'kW': power value}
+    Converts kW to Wh (* 1000).
+    """
+    result: list[DataPoint] = []
+    for r in records:
+        raw_kw = r.get("kW", "0").replace(",", ".").replace("null", "0")
+        value = float(raw_kw) * 1000  # kW -> Wh
+        dt = _parse_date(r["debut"])
+        result.append(DataPoint(date=dt.isoformat(), value=value))
+    return result
+
+
 def group_by_hour(data: list[DataPoint]) -> list[DataPoint]:
     """Group data points by hour and compute the average per hour.
 

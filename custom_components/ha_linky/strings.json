@@ -52,5 +52,43 @@
         "name": "Sync status"
       }
     }
+  },
+  "services": {
+    "import_csv": {
+      "name": "Import CSV",
+      "description": "Import historical energy data from a CSV file exported from your Enedis account.",
+      "fields": {
+        "file_path": {
+          "name": "File path",
+          "description": "Path to the CSV file (semicolon-delimited, with 'debut' and 'kW' columns)"
+        },
+        "prm": {
+          "name": "PRM",
+          "description": "14-digit PRM number of the meter"
+        },
+        "production": {
+          "name": "Production",
+          "description": "Set to true if this is production data"
+        },
+        "name": {
+          "name": "Name",
+          "description": "Display name for the statistics"
+        }
+      }
+    },
+    "reset_statistics": {
+      "name": "Reset statistics",
+      "description": "Remove all statistics (energy and cost) for a given PRM.",
+      "fields": {
+        "prm": {
+          "name": "PRM",
+          "description": "14-digit PRM number of the meter"
+        },
+        "production": {
+          "name": "Production",
+          "description": "Set to true to reset production statistics"
+        }
+      }
+    }
   }
 }
