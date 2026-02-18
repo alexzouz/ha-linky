@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add a Linky meter",
+        "description": "Enter your Linky meter information. You can get a token from [Conso API](https://conso.boris.sh/).",
+        "data": {
+          "prm": "PRM number (14 digits)",
+          "token": "Conso API token",
+          "name": "Display name",
+          "production": "Production meter"
+        },
+        "data_description": {
+          "prm": "Your 14-digit PRM number, found on your Linky meter or Enedis account",
+          "token": "Access token generated on conso.boris.sh",
+          "name": "Name displayed in the Energy dashboard",
+          "production": "Enable if this meter measures electricity production"
+        }
+      }
+    },
+    "error": {
+      "invalid_prm": "PRM must be exactly 14 digits",
+      "invalid_auth": "Invalid token or PRM",
+      "cannot_connect": "Cannot connect to Conso API",
+      "unknown": "An unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "This meter is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Cost configuration",
+        "description": "Enter your electricity pricing rules as a JSON array. Each item must have either `price` (EUR/kWh) or `entity_id`. See documentation for details.",
+        "data": {
+          "costs": "Cost rules (JSON)"
+        }
+      }
+    },
+    "error": {
+      "invalid_json": "Invalid JSON format",
+      "invalid_costs_format": "Costs must be a JSON array of objects",
+      "price_and_entity": "Cannot specify both 'price' and 'entity_id' in the same rule",
+      "no_price_or_entity": "Each rule must have either 'price' or 'entity_id'",
+      "entity_with_time_filter": "Time-based filters (after, before, weekday) cannot be used with 'entity_id'"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "sync_status": {
+        "name": "Sync status"
+      }
+    }
+  }
+}

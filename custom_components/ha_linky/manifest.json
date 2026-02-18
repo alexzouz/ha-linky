@@ -1,0 +1,12 @@
+{
+  "domain": "ha_linky",
+  "name": "Linky",
+  "codeowners": ["@alexzouz"],
+  "config_flow": true,
+  "dependencies": ["recorder"],
+  "documentation": "https://github.com/alexzouz/ha-linky",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/alexzouz/ha-linky/issues",
+  "requirements": [],
+  "version": "2.0.0"
+}

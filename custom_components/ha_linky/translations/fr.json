@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ajouter un compteur Linky",
+        "description": "Entrez les informations de votre compteur Linky. Vous pouvez obtenir un token sur [Conso API](https://conso.boris.sh/).",
+        "data": {
+          "prm": "Numero PRM (14 chiffres)",
+          "token": "Token Conso API",
+          "name": "Nom d'affichage",
+          "production": "Compteur de production"
+        },
+        "data_description": {
+          "prm": "Votre numero PRM a 14 chiffres, disponible sur votre compteur Linky ou votre espace Enedis",
+          "token": "Token d'acces genere sur conso.boris.sh",
+          "name": "Nom affiche dans le tableau de bord Energie",
+          "production": "Activer si ce compteur mesure la production d'electricite"
+        }
+      }
+    },
+    "error": {
+      "invalid_prm": "Le PRM doit contenir exactement 14 chiffres",
+      "invalid_auth": "Token ou PRM invalide",
+      "cannot_connect": "Impossible de se connecter a Conso API",
+      "unknown": "Une erreur inattendue s'est produite"
+    },
+    "abort": {
+      "already_configured": "Ce compteur est deja configure"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configuration des couts",
+        "description": "Entrez vos regles de tarification sous forme de tableau JSON. Chaque element doit avoir soit `price` (EUR/kWh) soit `entity_id`. Consultez la documentation pour plus de details.",
+        "data": {
+          "costs": "Regles de couts (JSON)"
+        }
+      }
+    },
+    "error": {
+      "invalid_json": "Format JSON invalide",
+      "invalid_costs_format": "Les couts doivent etre un tableau JSON d'objets",
+      "price_and_entity": "Impossible de specifier 'price' et 'entity_id' dans la meme regle",
+      "no_price_or_entity": "Chaque regle doit avoir soit 'price' soit 'entity_id'",
+      "entity_with_time_filter": "Les filtres horaires (after, before, weekday) ne peuvent pas etre utilises avec 'entity_id'"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "sync_status": {
+        "name": "Statut de synchronisation"
+      }
+    }
+  }
+}
